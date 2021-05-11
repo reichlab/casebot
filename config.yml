@@ -1,12 +1,11 @@
 config:
   port: 10000
-  env_bot_token: 
-    name: SLACK_BOT_TOKEN
-    value: null
-    from_sys: true
-  env_signing_secret:
-    name: SLACK_SIGNING_SECRET
-    value: null
-    from_sys: true
+  env:
+    bot_token: 
+      name: SLACK_BOT_TOKEN
+      value: null
+    signing_secret:
+      name: SLACK_SIGNING_SECRET
+      value: null
   
     

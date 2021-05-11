@@ -1,21 +1,16 @@
-import os
-import pyyaml
-# Use the package we installed
 from slack_bolt import App
+from config import parse_config_file
+from home import *
 
-# Initializes your app with your bot token and signing secret
+# entry point
+TOKEN, SECRET = parse_config_file()
+APP = App(token=TOKEN, signing_secret=SECRET)
 
-
-# Add functionality here
-def start_app():
-
-  app = App(
-    token=os.environ.get("SLACK_BOT_TOKEN"),
-    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
-  )
-
-  app.start()
+# home tab
+@APP.event("app_home_opened")
+def get_home_tab(client, event, logger):
+  update_home_tab(client, event, logger)
 
 # Start your app
 if __name__ == "__main__":
-  start_app()
+  APP.start()
