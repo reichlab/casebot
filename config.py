@@ -1,14 +1,16 @@
 import os
-import yaml
+import json
+from types import SimpleNamespace
 
-CONFIG_FILE_PATH = "./config.yml"
+CONFIG_FILE_PATH = "./config.json"
 
 def parse_config_file():
-  # read in config file
   with open(CONFIG_FILE_PATH, "r") as config_file:
-    config = yaml.safe_load(config_file.read())
+    config = json.load(config_file, object_hook=lambda d: SimpleNamespace(**d))
 
-  bot_token = os.environ.get(config.env.bot_token.name) \
+  port = config.port
+
+  token = os.environ.get(config.env.bot_token.name) \
     if not config.env.bot_token.value \
     else config.env.bot_token.value
 
@@ -16,4 +18,5 @@ def parse_config_file():
     if not config.env.signing_secret.value \
     else config.env.signing_secret.value
 
-  return bot_token, secret
+  return port, token, secret
+

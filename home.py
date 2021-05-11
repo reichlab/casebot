@@ -35,7 +35,7 @@ def update_home_tab(client, event, logger):
                 "type": "button",
                 "text": {
                   "type": "plain_text",
-                  "text": "Click me!"
+                  "text": "In progress"
                 }
               }
             ]

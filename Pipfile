@@ -5,11 +5,9 @@ name = "pypi"
 
 [packages]
 slack-bolt = "*"
-pyyaml = "*"
 
 [dev-packages]
 slack-bolt = "*"
-pyyaml = "*"
 
 [requires]
 python_version = "3.9"
