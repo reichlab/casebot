@@ -25,7 +25,7 @@ def update_home_tab(client, event, logger):
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": "Here's a button!"
+              "text": f"Hello <@{event['user']}>!"
             }
           },
           {
