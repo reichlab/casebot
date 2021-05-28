@@ -1,2 +1,75 @@
-def respond_hello(say, command):
+import logging
+from baseline import baseline
+from datetime import date
+from pprint import pprint
+from pathlib import Path
+
+from slack_sdk.errors import SlackApiError
+
+import utils
+
+logger = logging.getLogger("casebot")
+
+D_SUFFIX = "COVIDhub-baseline-plots-deaths.pdf"
+C_SUFFIX = "COVIDhub-baseline-plots-cases.pdf"
+
+def respond_hello(say, command, client, args):
   say(f"Hello to you too, <@{command['user_id']}>!")
+  logger.info(pprint(command))
+
+def respond_build(say, command, client, args):
+  if args[0] == "baseline":
+    say("Will trigger baseline build! Please wait for the build to finish and plots to be collected.")
+
+    # long running process...
+    #rv, plot_folder_path, csv_folder_path = baseline()
+    plot_folder_path = Path("/code/covidModels/weekly-submission/COVIDhub-baseline-plots")
+    rv = 0
+
+    # done with build! check results
+    if rv == 0:
+      # try uploading file to slack
+      try:
+        last_monday = utils.get_last_monday()
+        
+        # construct filenames for deaths and cases plots
+        d_plot_path = plot_folder_path/f"{last_monday}-{D_SUFFIX}"
+        c_plot_path = plot_folder_path/f"{last_monday}-{C_SUFFIX}"
+
+        # get channel from which command was issued
+        channel_id = command["channel_id"]
+
+        # upload to said channel with plots
+        client.files_upload(
+          channels=channel_id,
+          initial_comment=f"Deaths plot made on {last_monday}",
+          file=d_plot_path.as_posix()
+        )
+        client.files_upload(
+          channels=channel_id,
+          initial_comment=f"Cases plot made on {last_monday}",
+          file=c_plot_path.as_posix()
+        )
+
+        # show modal
+        # task: use block kit builder to build a UI
+        # "Satisfied with plots?" -> Yes/No
+
+        # next step: make GitHub PR (modal response from user)
+        # create new branch
+        # move CSVs to correct location
+        # make PR (should be automerged)
+
+      except SlackApiError as e:
+        # change this to say in a private channel.
+        say("I could not upload plots to this channel. Help!")
+        say("Here's what happened:")
+        say(f"{e.response}")
+      #   get channel from which command was issued
+      #   upload to said channel with plots
+      
+      pass
+    else:
+      say("Baseline build was not successful. Please check system logs for details.")
+  else:
+    say("I don't know how to build that yet. Maybe we can add it as a new target?")

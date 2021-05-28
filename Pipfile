@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 slack-bolt = "*"
+slack-sdk = "*"
 
 [dev-packages]
 slack-bolt = "*"

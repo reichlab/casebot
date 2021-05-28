@@ -8,7 +8,8 @@ import home
 import slash_commands
 
 # logging setup
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("casebot")
+logger.setLevel(logging.INFO)
 
 # get config variables
 PORT, TOKEN, SECRET = parse_config_file()
@@ -26,19 +27,21 @@ def update_home_tab(client, event, logger):
 # slash commands
 # maps command strings to functions in slash_commands.py
 slash_commands_dict = {
-  "hello": slash_commands.respond_hello
+  "hello": slash_commands.respond_hello,
+  "build": slash_commands.respond_build
 }
 
 @app.command("/casebot")
-def dispatch_slash_command(ack, say, command):
+def dispatch_slash_command(ack, say, command, client):
   # acknowledge the command
   # (must be done, otherwise Slack will show error)
   ack()
 
   # parse the first phrase (use space as separator)
-  subcommand = command["text"].split(" ")[0]
+  arguments = command["text"].split(" ")
+  subcommand = arguments[0]
   try:
-    slash_commands_dict[subcommand](say, command)
+    slash_commands_dict[subcommand](say, command, client, arguments[1:])
   except KeyError:
     say("Sorry, I don't understand that command. Maybe we can add it as a new one?")
 
