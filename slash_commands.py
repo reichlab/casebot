@@ -1,12 +1,13 @@
 import logging
-from baseline import baseline
 from datetime import date
-from pprint import pprint
 from pathlib import Path
+from pprint import pprint
 
 from slack_sdk.errors import SlackApiError
 
+import ui_components
 import utils
+from tasks import baseline
 
 logger = logging.getLogger("casebot")
 
@@ -22,9 +23,11 @@ def respond_build(say, command, client, args):
     say("Will trigger baseline build! Please wait for the build to finish and plots to be collected.")
 
     # long running process...
-    #rv, plot_folder_path, csv_folder_path = baseline()
-    plot_folder_path = Path("/code/covidModels/weekly-submission/COVIDhub-baseline-plots")
-    rv = 0
+    rv, plot_folder_path = baseline()
+
+    # only turn on for testing
+    #plot_folder_path = Path("/code/covidModels/weekly-submission/COVIDhub-baseline-plots")
+    #rv = 0
 
     # done with build! check results
     if rv == 0:
@@ -52,23 +55,14 @@ def respond_build(say, command, client, args):
         )
 
         # show modal
-        # task: use block kit builder to build a UI
-        # "Satisfied with plots?" -> Yes/No
-
-        # next step: make GitHub PR (modal response from user)
-        # create new branch
-        # move CSVs to correct location
-        # make PR (should be automerged)
+        modal = ui_components.bfm()
+        # modal button actions handled by another function
 
       except SlackApiError as e:
         # change this to say in a private channel.
         say("I could not upload plots to this channel. Help!")
         say("Here's what happened:")
         say(f"{e.response}")
-      #   get channel from which command was issued
-      #   upload to said channel with plots
-      
-      pass
     else:
       say("Baseline build was not successful. Please check system logs for details.")
   else:

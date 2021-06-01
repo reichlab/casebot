@@ -6,6 +6,7 @@ from slack_bolt import App
 from config import parse_config_file
 import home
 import slash_commands
+import actions
 
 # logging setup
 logger = logging.getLogger("casebot")
@@ -23,6 +24,23 @@ app = App(token=TOKEN, signing_secret=SECRET)
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger):
   home.update_home_tab(client, event, logger)
+
+# actions (button events)
+# maps action ids to functions in actions.py
+actions_dict = {
+  "bfm_confirm": actions.response_bfm_confirm
+}
+@app.action("bfm_confirm")
+def dispatch_baseline_pr(ack, say, client):
+  # acknowledge the command
+  # (must be done, otherwise Slack will show error)
+  ack()
+  say("Confirm! Will create pull request now.")
+  try:
+    actions_dict["bfm_confirm"](say, client)
+    say("PR successfully created")
+  except:
+    say("Could not create PR; please check VM logs for details")
 
 # slash commands
 # maps command strings to functions in slash_commands.py

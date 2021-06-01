@@ -1,45 +1,45 @@
 {
-	"blocks": [
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "Baseline build is finished! Please see the plots above."
-			}
-		},
-		{
-			"type": "divider"
-		},
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "Are you satisfied with the plots?"
-			}
-		},
-		{
-			"type": "actions",
-			"elements": [
-				{
-					"type": "button",
-					"text": {
-						"type": "plain_text",
-						"text": "Yes!"
-					},
-					"value": "confirm_PR",
-					"style": "primary",
-					"action_id": "bfm_confirm"
-				},
-				{
-					"type": "button",
-					"text": {
-						"type": "plain_text",
-						"text": "No..."
-					},
-					"value": "deny_PR",
-					"action_id": "bfm_deny"
-				}
-			]
-		}
-	]
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Baseline build is finished! Please see the plots above."
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Are you satisfied with the plots?"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Yes!"
+          },
+          "value": "confirm_PR",
+          "style": "primary",
+          "action_id": "bfm_confirm"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "No..."
+          },
+          "value": "deny_PR",
+          "action_id": "bfm_deny"
+        }
+      ]
+    }
+  ]
 }

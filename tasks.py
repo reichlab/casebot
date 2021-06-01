@@ -13,16 +13,11 @@ def baseline():
     "all"                                     # all
   ])
   
-
   # return path to plot folder and CSV folder
   # return None if make all failed
   if result.returncode != 0:
     # save output from result to log file
     
-    return (1, None, None)
+    return (1, FileNotFoundError)
   else:
-    return (
-      0,
-      COVID_MODELS_DIR/"COVIDhub-baseline-plots",
-      COVID_MODELS_DIR/"forecasts/COVIDhub-baseline"
-    )
+    return (0, COVID_MODELS_DIR/"COVIDhub-baseline-plots")
