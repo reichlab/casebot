@@ -23,11 +23,11 @@ def respond_build(say, command, client, args):
     say("Will trigger baseline build! Please wait for the build to finish and plots to be collected.")
 
     # long running process...
-    rv, plot_folder_path = baseline()
+    #rv, plot_folder_path = baseline()
 
     # only turn on for testing
-    #plot_folder_path = Path("/code/covidModels/weekly-submission/COVIDhub-baseline-plots")
-    #rv = 0
+    plot_folder_path = Path("/code/covidModels/weekly-submission/COVIDhub-baseline-plots")
+    rv = 0
 
     # done with build! check results
     if rv == 0:
@@ -56,6 +56,7 @@ def respond_build(say, command, client, args):
 
         # show modal
         modal = ui_components.bfm()
+        say(modal)
         # modal button actions handled by another function
 
       except SlackApiError as e:

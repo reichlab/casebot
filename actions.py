@@ -1,7 +1,7 @@
 import os
 import shutil
 import subprocess
-from github import GitHub
+from github import Github
 from pathlib import Path
 
 import utils
@@ -22,7 +22,8 @@ def response_bfm_confirm(say, client):
   os.chdir(hub_path)
   
   # fetch & pull
-  subprocess.run(["git", "fetch", "&", "git", "pull"])
+  subprocess.run(["git", "fetch"])
+  subprocess.run(["git", "pull"])
 
   # make new branch (baseline-<today's date>)
   new_branch_name = f"baseline-{last_monday_nodash}"
@@ -44,7 +45,7 @@ def response_bfm_confirm(say, client):
   #          title = title of PR
   #          body = body of PR
   #          issue = link
-  g = GitHub(os.getenv("GH_TOKEN"))
+  g = Github(os.getenv("GH_TOKEN"))
   repo = g.get_repo("reichlab/covid19-forecast-hub")
   head = new_branch_name
   base = "test"

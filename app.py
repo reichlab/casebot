@@ -10,7 +10,7 @@ import actions
 
 # logging setup
 logger = logging.getLogger("casebot")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # get config variables
 PORT, TOKEN, SECRET = parse_config_file()
@@ -30,6 +30,7 @@ def update_home_tab(client, event, logger):
 actions_dict = {
   "bfm_confirm": actions.response_bfm_confirm
 }
+
 @app.action("bfm_confirm")
 def dispatch_baseline_pr(ack, say, client):
   # acknowledge the command

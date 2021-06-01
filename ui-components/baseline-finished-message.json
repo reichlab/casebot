@@ -40,6 +40,13 @@
           "action_id": "bfm_deny"
         }
       ]
-    }
+    },
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Note: selecting \"yes\" will trigger the creation of a new branch with the generated baseline CSVs and the creation of a PR from the new branch to the main branch."
+			}
+		}
   ]
 }
