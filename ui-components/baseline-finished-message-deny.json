@@ -1,0 +1,21 @@
+{
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Baseline build is finished! Please see the plots above."
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "OK. Please retry when everything is fixed."
+      }
+    }
+  ]
+}

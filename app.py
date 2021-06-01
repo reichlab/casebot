@@ -7,6 +7,7 @@ from config import parse_config_file
 import home
 import slash_commands
 import actions
+import ui_components
 
 # logging setup
 logger = logging.getLogger("casebot")
@@ -32,21 +33,21 @@ actions_dict = {
 }
 
 @app.action("bfm_confirm")
-def dispatch_baseline_pr(ack, say, client):
+def dispatch_baseline_pr(ack, say, respond, client):
   # acknowledge the command
   # (must be done, otherwise Slack will show error)
   ack()
-  say("Confirm! Will create pull request now.")
+  respond(text=ui_components.bfm_confirm(), replace_original=True)
   try:
-    actions_dict["bfm_confirm"](say, client)
-    say("PR successfully created")
+    #actions_dict["bfm_confirm"](say, client)
+    say("PR successfully created.")
   except:
-    say("Could not create PR; please check VM logs for details")
+    say("Could not create PR; please check VM logs for details.")
 
 @app.action("bfm_deny")
-def denied_baseline_pr(ack, say):
+def denied_baseline_pr(ack, respond):
   ack()
-  say("OK. Please rerun command once everything is fixed.")
+  respond(text=ui_components.bfm_deny(), replace_original=True)
 
 # slash commands
 # maps command strings to functions in slash_commands.py

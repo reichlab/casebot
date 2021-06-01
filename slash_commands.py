@@ -42,6 +42,9 @@ def respond_build(say, command, client, args):
         # get channel from which command was issued
         channel_id = command["channel_id"]
 
+        # join channel
+        client.conversations_join(channel=channel_id)
+
         # upload to said channel with plots
         client.files_upload(
           channels=channel_id,

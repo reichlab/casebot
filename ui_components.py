@@ -1,6 +1,7 @@
 import os
 import json
 from pathlib import Path
+from pprint import pprint
 
 # setup
 # read all JSON components from ui-components/
@@ -10,5 +11,13 @@ components_path_list = {
 }
 
 def bfm():
-  with open(components_path_list["baseline-finished-message"]) as bfm_json:
-    return json.load(bfm_json)
+  with open(components_path_list["baseline-finished-message"]) as f:
+    return json.load(f)
+
+def bfm_confirm():
+  with open(components_path_list["baseline-finished-message-confirm"]) as f:
+    return json.load(f)
+
+def bfm_deny():
+  with open(components_path_list["baseline-finished-message-deny"]) as f:
+    return json.load(f)
