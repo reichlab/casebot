@@ -43,6 +43,11 @@ def dispatch_baseline_pr(ack, say, client):
   except:
     say("Could not create PR; please check VM logs for details")
 
+@app.action("bfm_deny")
+def denied_baseline_pr(ack, say):
+  ack()
+  say("OK. Please rerun command once everything is fixed.")
+
 # slash commands
 # maps command strings to functions in slash_commands.py
 slash_commands_dict = {

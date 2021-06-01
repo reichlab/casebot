@@ -6,6 +6,8 @@ from pathlib import Path
 
 import utils
 
+IS_TEST = False
+
 def response_bfm_confirm(say, client):
   last_monday = utils.get_last_monday()
   last_monday_nodash = ''.join(str(last_monday).split('-'))
@@ -48,14 +50,14 @@ def response_bfm_confirm(say, client):
   g = Github(os.getenv("GH_TOKEN"))
   repo = g.get_repo("reichlab/covid19-forecast-hub")
   head = new_branch_name
-  base = "test"
+  base = "master" if not IS_TEST else "test"
   title = f"baseline build, {last_monday_nodash}"
   body = f'''
 ## Description
 
 baseline build, {last_monday_nodash}
 
-- Team name: COVIDhub-baseline
+- Team name: COVIDhub
 - Model name that is being updated: baseline
 
   '''
@@ -63,6 +65,9 @@ baseline build, {last_monday_nodash}
 
   # change back to main branch
   subprocess.run(["git", "checkout", "master"])
+
+  # remove baseline branch from local
+  subprocess.run(["git", "branch", "-D", new_branch_name])
 
   # change back to previous dir
   os.chdir(saved_dir)
