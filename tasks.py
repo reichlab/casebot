@@ -20,3 +20,6 @@ def baseline():
     return (1, None)
   else:
     return (0, COVID_MODELS_DIR/"COVIDhub-baseline-plots")
+
+def untrained_unsemble():
+  pass

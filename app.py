@@ -39,7 +39,7 @@ def dispatch_baseline_pr(ack, say, respond, client):
   ack()
   respond(text=ui_components.bfm_confirm(), replace_original=True)
   try:
-    #actions_dict["bfm_confirm"](say, client)
+    actions_dict["bfm_confirm"](say, client)
     say("PR successfully created.")
   except:
     say("Could not create PR; please check VM logs for details.")

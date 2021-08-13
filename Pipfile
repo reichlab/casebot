@@ -7,6 +7,7 @@ name = "pypi"
 slack-bolt = "*"
 slack-sdk = "*"
 pygithub = "*"
+django = "~=3.2"
 
 [dev-packages]
 slack-bolt = "*"
