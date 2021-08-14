@@ -2,7 +2,7 @@ import os
 import json
 from types import SimpleNamespace
 
-CONFIG_FILE_PATH = "./config.json"
+CONFIG_FILE_PATH = "../config.json"
 
 def parse_config_file():
   with open(CONFIG_FILE_PATH, "r") as config_file:
