@@ -11,8 +11,10 @@ from tasks import baseline
 
 logger = logging.getLogger("casebot")
 
-D_SUFFIX = "COVIDhub-baseline-plots-deaths.pdf"
-C_SUFFIX = "COVIDhub-baseline-plots-cases.pdf"
+LAST_MONDAY = utils.get_last_monday()
+D_NAME = f"COVIDhub-baseline-{LAST_MONDAY}-deaths.pdf"
+C_NAME = f"COVIDhub-baseline-{LAST_MONDAY}-cases.pdf"
+H_NAME = f"COVIDhub-baseline-{LAST_MONDAY}-hospitalizations.pdf"
 
 def respond_hello(say, command, client, args):
   say(f"Hello to you too, <@{command['user_id']}>!")
@@ -35,9 +37,10 @@ def respond_build(say, command, client, args):
       try:
         last_monday = utils.get_last_monday()
         
-        # construct filenames for deaths and cases plots
-        d_plot_path = plot_folder_path/f"{last_monday}-{D_SUFFIX}"
-        c_plot_path = plot_folder_path/f"{last_monday}-{C_SUFFIX}"
+        # construct filenames for deaths, cases, and hospitalizations plots
+        d_plot_path = plot_folder_path/str(LAST_MONDAY)/D_NAME
+        c_plot_path = plot_folder_path/str(LAST_MONDAY)/C_NAME
+        h_plot_path = plot_folder_path/str(LAST_MONDAY)/H_NAME
 
         # get channel from which command was issued
         channel_id = command["channel_id"]
@@ -55,6 +58,11 @@ def respond_build(say, command, client, args):
           channels=channel_id,
           initial_comment=f"Cases plot made on {last_monday}",
           file=c_plot_path.as_posix()
+        )
+        client.files_upload(
+          channels=channel_id,
+          initial_comment=f"Hospitalizations plot made on {last_monday}",
+          file=h_plot_path.as_posix()
         )
 
         # show modal
