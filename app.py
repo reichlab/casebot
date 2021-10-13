@@ -1,23 +1,30 @@
+from typing import Tuple
 import os
 import logging
-from slack_bolt import App
+import slack_bolt
 
 # internal components
-from config import parse_config_file
+import config
 import home
 import slash_commands
 import actions
 import ui_components
 
+# TODO: use a real production-level HTTP server
+# suggestion: Flask (if synchronous), Starlette (if async)
+# slack_bolt defaults to the Python-builtin HTTPServer, which is not
+# production-grade
+# see also https://slack.dev/bolt-python/concepts#adapters
+
 # logging setup
-logger = logging.getLogger("casebot")
+logger: logging.Logger = logging.getLogger("casebot")
 logger.setLevel(logging.DEBUG)
 
 # get config variables
-PORT, TOKEN, SECRET = parse_config_file()
+PORT, TOKEN, SECRET = config.parse_config_file()
 
 # make app
-app = App(token=TOKEN, signing_secret=SECRET)
+app = slack_bolt.App(token=TOKEN, signing_secret=SECRET)
 
 ### bot configurations ###
 
@@ -29,7 +36,7 @@ def update_home_tab(client, event, logger):
 # actions (button events)
 # maps action ids to functions in actions.py
 actions_dict = {
-    "bfm_confirm": actions.response_bfm_confirm
+    "bfm_confirm": actions.respond_bfm_confirm
 }
 
 @app.action("bfm_confirm")
@@ -68,7 +75,10 @@ def dispatch_slash_command(ack, say, command, client):
     try:
         slash_commands_dict[subcommand](say, command, client, arguments[1:])
     except KeyError:
-        say("Sorry, I don't understand that command. Maybe we can add it as a new one?")
+        say((
+            "Sorry, I don't understand that command. "
+            "Maybe we can add it as a new one?"
+        ))
 
     logging.info(command)
 

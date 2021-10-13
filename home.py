@@ -1,48 +1,52 @@
 def update_home_tab(client, event, logger):
-  try:
-    # views.publish is the method that your app uses to push a view to the Home tab
-    client.views_publish(
-      # the user that opened your app's app home
-      user_id = event["user"],
-      # the view object that appears in the app home
-      view = {
-        "type": "home",
-        "callback_id": "home_view",
+    try:
+        # views.publish is the method that your app
+        # uses to push a view to the Home tab
+        client.views_publish(
+            # the user that opened your app's app home
+            user_id = event["user"],
+            # the view object that appears in the app home
+            view = {
+                "type": "home",
+                "callback_id": "home_view",
 
-        # body of the view
-        "blocks": [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": ''':tada: *Welcome to the home of CASEbot!* :robot_face:'''
+                # body of the view
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": (
+                                ":tada: *Welcome to the home of CASEbot!* "
+                                ":robot_face:"
+                            )
+                        }
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": f"Hello <@{event['user']}>!"
+                        }
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "In progress"
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
-          },
-          {
-            "type": "divider"
-          },
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": f"Hello <@{event['user']}>!"
-            }
-          },
-          {
-            "type": "actions",
-            "elements": [
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": "In progress"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    )
-  
-  except Exception as e:
-    logger.error(f"Error publishing home tab: {e}")
+        )
+    
+    except Exception as e:
+        logger.error(f"Error publishing home tab: {e}")
